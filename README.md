@@ -7,6 +7,8 @@ Team members:
 4. Mohammad AlGhanim - The tiger
 5. Yazan Abu Shhab - Somebody that i used to know
 
+presentation
+[Link](https://docs.google.com/presentation/d/1tVQPjMPgKqLBXTwpZRNboJujDVOuZHeEAfj26BJT5b4/edit)
 ## Cooperation Plan
 
 - Describe at least:
