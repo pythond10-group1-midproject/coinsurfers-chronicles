@@ -79,7 +79,7 @@ presentation
 - Thursday: Initial meeting with project ideas
 - Friday: Second meeting with study plans
 - Saturday: Third meeting with plans on which library to work with on the project - PyGame
-- Sunday: N/A
+- Sunday: Start working on the code
 
 ## Git Process
 
