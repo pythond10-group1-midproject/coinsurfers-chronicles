@@ -27,3 +27,27 @@ class AnimatedTile(Tile):
         self.frames = import_folder(path)
         self.frame_index = 0
         self.image = self.frames[self.frame_index]
+
+    def animate(self):
+        self.frame_index += 0.15 # edit if you want a slower coin animation
+        if self.frame_index >= len(self.frames):
+            self.frame_index = 0
+        self.image = self.frames[int(self.frame_index)]
+
+    def update(self, shift):
+        self.animate()
+        self.rect.x += shift
+
+class Coin(AnimatedTile):
+
+    def __init__(self, size, x, y, path):
+        super().__init__(size, x, y, path)
+        center_x = x + int(size / 2) 
+        center_y = y + int(size / 2)
+        self.rect = self.image.get_rect(center = (center_x,center_y))
+
+class Palm(AnimatedTile):
+    def __init__(self, size, x, y, path,offset):
+        super().__init__(size, x, y, path)
+        offset_y = y - offset 
+        self.rect.topleft = (x, offset_y)
