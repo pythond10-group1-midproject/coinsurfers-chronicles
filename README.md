@@ -12,11 +12,11 @@ presentation
 
 ## Cooperation Plan
 - Main Menu
-![alt text](../platformer-game/Mid-Project-a.jpg)
+![alt text](./Mid-Project-a.jpg)
 - World Selector
-![alt text](../platformer-game/Mid-Project-b.jpg)
+![alt text](./Mid-Project-b.jpg)
 - Game Level
-![alt text](../platformer-game/Mid-Project-c.jpg)
+![alt text](./Mid-Project-c.jpg)
 
 - Describe at least:
 
