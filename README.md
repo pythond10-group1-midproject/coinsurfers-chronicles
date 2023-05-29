@@ -3,13 +3,20 @@
 Team members:
 1. Abdullah Abu Hamad - Team Leader - The big orange cat
 2. Amjad Alseyied - The moustache cat
-3. Nawras Albibi - the fish
+3. Nawras Albibi - The Shawarma man
 4. Mohammad AlGhanim - The tiger
 5. Yazan Abu Shhab - Somebody that i used to know
 
 presentation
 [Link](https://docs.google.com/presentation/d/1tVQPjMPgKqLBXTwpZRNboJujDVOuZHeEAfj26BJT5b4/edit)
+
 ## Cooperation Plan
+- Main Menu
+![alt text](../platformer-game/Mid-Project-a.jpg)
+- World Selector
+![alt text](../platformer-game/Mid-Project-b.jpg)
+- Game Level
+![alt text](../platformer-game/Mid-Project-c.jpg)
 
 - Describe at least:
 
