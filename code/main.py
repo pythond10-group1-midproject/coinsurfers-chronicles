@@ -13,7 +13,7 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
-    screen.fill('black')
+    screen.fill('gray')
     level.run()
     
     pygame.display.update()
