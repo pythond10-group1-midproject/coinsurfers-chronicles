@@ -1,10 +1,10 @@
 import pygame
-from support import import_csv_layout, import_cut_graphic
+from support import import_csv_layout, import_cut_graphic, hour_of_day
 from game_data import *
 from settings import tile_size,screen_height ,screen_width
-from tiles import Tile, StaticTile, Crate, Coin , Palm
+from tiles import Tile, StaticTile, Crate, Coin, Palm
 from enemy import Enemy
-from decorations import Sky , Water , Clouds
+from decorations import Sky, Water, Clouds, Stars
 from player import Player
 from particles import ParticleEffect
 
@@ -62,6 +62,7 @@ class Level:
         level_width = len(terrain_layout[0])* tile_size
         self.water = Water(screen_height - 40 , level_width)   
         self.clouds = Clouds(400,level_width,30)
+        self.stars = Stars(400,level_width,30)
     
     def create_tile_group(self, layout, type):
         sprite_group = pygame.sprite.Group()
@@ -73,9 +74,14 @@ class Level:
                     y = row_index * tile_size
                     
                     if type == 'terrain':
-                        terrain_tile_list = import_cut_graphic('graphics/terrain/terrain_tiles.png')
-                        tile_surface = terrain_tile_list[int(val)]
-                        sprite = StaticTile(tile_size, x, y, tile_surface)
+                        if hour_of_day > 8 and hour_of_day < 18:
+                            terrain_tile_list = import_cut_graphic('graphics/terrain/terrain_tiles.png')
+                            tile_surface = terrain_tile_list[int(val)]
+                            sprite = StaticTile(tile_size, x, y, tile_surface)
+                        else:
+                            terrain_tile_list = import_cut_graphic('graphics/terrain/terrain_tiles_dark.png')
+                            tile_surface = terrain_tile_list[int(val)]
+                            sprite = StaticTile(tile_size, x, y, tile_surface)
                         
                     if type == 'grass':
                         grass_tile_list = import_cut_graphic('graphics/decoration/grass/grass.png')
@@ -207,6 +213,7 @@ class Level:
 
         # sky
         self.sky.draw(self.display_surface)
+        self.stars.draw(self.display_surface,self.world_shift)
         self.clouds.draw(self.display_surface,self.world_shift)
 
         # bacground palms
@@ -258,6 +265,3 @@ class Level:
 
         # water render 
         self.water.draw(self.display_surface,self.world_shift)
-
-
-

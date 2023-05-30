@@ -1,14 +1,20 @@
 import pygame
 from settings import *
 from tiles import AnimatedTile, StaticTile
-from support import import_folder
-from random import choice ,randint
+from support import import_folder, hour_of_day
+from random import choice, randint
 
 class Sky:
     def __init__(self,horizon):
-        self.top = pygame.image.load('graphics/decoration/sky/sky_top.png').convert()
-        self.bottom = pygame.image.load('graphics/decoration/sky/sky_bottom.png').convert()
-        self.middle = pygame.image.load('graphics/decoration/sky/sky_middle.png').convert()
+        if hour_of_day > 8 and hour_of_day < 18: # updates on day and night
+            self.top = pygame.image.load('graphics/decoration/sky/sky_top.png').convert()
+            self.bottom = pygame.image.load('graphics/decoration/sky/sky_bottom.png').convert()
+            self.middle = pygame.image.load('graphics/decoration/sky/sky_middle.png').convert()
+        else:
+            self.top = pygame.image.load('graphics/decoration/sky/sky_top_night.png').convert()
+            self.bottom = pygame.image.load('graphics/decoration/sky/sky_bottom_night.png').convert()
+            self.middle = pygame.image.load('graphics/decoration/sky/sky_middle_night.png').convert()
+            
         self.horizon = horizon
 
         # stretch
@@ -62,3 +68,24 @@ class Clouds:
     def draw(self,surface,shift):
         self.cloud_sprites.update(shift)
         self.cloud_sprites.draw(surface)
+        
+class Stars:
+    def __init__(self,horizon,level_width,stars_number): # updates on day and night
+        star_surf_list = import_folder('graphics/decoration/stars')
+        min_x = - screen_width
+        max_x = level_width + screen_width
+        min_y = 0
+        max_y = horizon
+        self.star_sprites = pygame.sprite.Group()
+        for star in range(stars_number):
+            star = choice(star_surf_list)
+            star_scaled = pygame.transform.scale(star, (10, 10))
+            x = randint(min_x,max_x)
+            y = randint(min_y,max_y)
+            sprite = StaticTile(0,x,y,star_scaled)
+            self.star_sprites.add(sprite)
+    
+    def draw(self,surface,shift):
+        if hour_of_day < 8 or hour_of_day > 16: # updates on day and night
+            self.star_sprites.update(shift)
+            self.star_sprites.draw(surface)

@@ -9,12 +9,14 @@ class Player(pygame.sprite.Sprite):
         self.animation_speed = 0.15
         self.image = self.animations['idle'][self.frame_index]
         self.rect = self.image.get_rect(topleft = position)
+        
         # dust particles ----2
         self.import_dust_run_particles()
         self.dust_frame_index = 0
         self.dust_animation_speed = 0.15
         self.display_surface = surface
         self.create_dust_particles = create_jump_particles
+        
         # player movement
         self.direction = pygame.math.Vector2(0,0)
         self.speed = 8
@@ -53,6 +55,7 @@ class Player(pygame.sprite.Sprite):
         else:
             flipped_image = pygame.transform.flip(image,True,False)
             self.image = flipped_image
+            
         #set the rect (to rest the border of the player based on the collision if its right,left,up or down)
         if self.on_ground and self.on_right :
             self.rect = self.image.get_rect(bottomright = self.rect.bottomright)
@@ -122,4 +125,3 @@ class Player(pygame.sprite.Sprite):
         self.get_status()
         self.animate()
         self.run_dust_animation()
-        

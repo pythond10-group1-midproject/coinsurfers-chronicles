@@ -2,6 +2,9 @@ from os import walk
 import pygame
 from csv import reader
 from settings import tile_size
+import datetime
+
+hour_of_day = datetime.datetime.now().time().hour
 
 def import_folder(path):
     animation_list = []
