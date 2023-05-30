@@ -1,8 +1,8 @@
 import pygame, sys
 from settings import *
-from level import Level
-from game_data import level_0
-from overworld import Overworld
+from overworld import Overworld 
+from level_new import Level
+
 
 class Game:
     def __init__(self):
@@ -24,7 +24,7 @@ class Game:
         if self.status == 'overworld':
              self.overworld.run()
         else:
-            self.level.run()   
+            self.level.run()     
 
 pygame.init()
 screen = pygame.display.set_mode((screen_width, screen_height))
@@ -36,7 +36,7 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
-    screen.fill('gray')
+    screen.fill('black')
     game.run()
     
     pygame.display.update()

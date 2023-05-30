@@ -5,17 +5,29 @@ from support import import_folder, hour_of_day
 from random import choice, randint
 
 class Sky:
-    def __init__(self,horizon):
+    def __init__(self,horizon,style="level"):
+        self.horizon = horizon
+
         if hour_of_day > 8 and hour_of_day < 18: # updates on day and night
             self.top = pygame.image.load('graphics/decoration/sky/sky_top.png').convert()
             self.bottom = pygame.image.load('graphics/decoration/sky/sky_bottom.png').convert()
             self.middle = pygame.image.load('graphics/decoration/sky/sky_middle.png').convert()
+            self.style = style
+            if self.style == 'overworld':
+                palm_surfaces = import_folder('graphics/overworld/palms')
+                self.palms = []
+
+                for surface in [choice(palm_surfaces) for image in range(10)]:
+                    x = randint(0,screen_width)
+                    y= (self.horizon * tile_size) + randint(50,60)
+                    rect =surface.get_rect(midbottom = (x,y))
+                    self.palms.append((surface,rect))
         else:
             self.top = pygame.image.load('graphics/decoration/sky/sky_top_night.png').convert()
             self.bottom = pygame.image.load('graphics/decoration/sky/sky_bottom_night.png').convert()
             self.middle = pygame.image.load('graphics/decoration/sky/sky_middle_night.png').convert()
+
             
-        self.horizon = horizon
 
         # stretch
         self.top = pygame.transform.scale(self.top,(screen_width,tile_size))
@@ -30,7 +42,11 @@ class Sky:
             elif row == self.horizon:
                 surface.blit(self.middle,(0,y))   
             else:
-                surface.blit(self.bottom,(0,y))     
+                surface.blit(self.bottom,(0,y)) 
+        if hour_of_day > 8 and hour_of_day < 18:
+            if self.style == 'overworld':
+                for palm in self.palms:
+                    surface.blit(palm[0],palm[1])            
 
 class Water:
     def __init__(self,top,level_width):
