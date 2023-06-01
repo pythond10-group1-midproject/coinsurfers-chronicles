@@ -25,6 +25,9 @@ def import_csv_layout(path):
     
 def import_cut_graphic(path):
     surface = pygame.image.load(path).convert_alpha()
+    x, y = surface.get_width(), surface.get_height()
+    factor = tile_size // y
+    pygame.transform.scale(surface, (x* factor, y* factor))
     tile_num_x = int(surface.get_size()[0] / tile_size)
     tile_num_y = int(surface.get_size()[1] / tile_size)
     
