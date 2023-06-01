@@ -102,6 +102,6 @@ class Stars:
             self.star_sprites.add(sprite)
     
     def draw(self,surface,shift):
-        if hour_of_day < 8 or hour_of_day > 16: # updates on day and night
+        if hour_of_day < 8 or hour_of_day > 18: # updates on day and night
             self.star_sprites.update(shift)
             self.star_sprites.draw(surface)
