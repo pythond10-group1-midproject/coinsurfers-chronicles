@@ -9,7 +9,7 @@ from player import Player
 from particles import ParticleEffect
 
 class Level:
-    def __init__(self, current_level,surface,create_overworld, change_coins, change_health):
+    def __init__(self, current_level,surface,create_overworld, change_coins, change_health,change_total_coins):
         # general setup
         self.display_surface = surface
         self.world_shift = 0
@@ -27,14 +27,16 @@ class Level:
         level_data = levels[self.current_level]
         self.new_max_level = level_data['unlock']
 
+        # user interface
+        self.change_coins = change_coins
+        self.change_total_coins = change_total_coins
+        
+        
         #player
         player_layout = import_csv_layout(level_data['player']) # [[],[],[],[]] len(play_lya[0]) this for Mohammad Alghanim
         self.player = pygame.sprite.GroupSingle()
         self.goal = pygame.sprite.GroupSingle()
         self.player_setup(player_layout, change_health)
-        
-        # user interface
-        self.change_coins = change_coins
 
         #dust
         self.dust_sprite = pygame.sprite.GroupSingle()
@@ -114,6 +116,8 @@ class Level:
                             sprite = Coin(tile_size, x, y,'graphics/coins/gold', 5)
                         if val == '1': 
                             sprite = Coin(tile_size, x, y,'graphics/coins/silver', 1)
+                        if val == '2': 
+                            sprite = Coin(tile_size, x, y,'graphics/coins/diamond', 10)
 
                     if type == 'fg palms':
                         if val == '0': sprite = Palm(tile_size,x,y,'graphics/terrain/palm_small',38)
@@ -204,10 +208,10 @@ class Level:
         player_x = player.rect.centerx
         direction_x = player.direction.x
         
-        if player_x < screen_width / 4 and direction_x < 0: # based on screen width since screen width is a number if player is going left
+        if player_x < screen_width / 2 and direction_x < 0: # based on screen width since screen width is a number if player is going left
             self.world_shift = 8
             player.speed = 0
-        elif player_x > screen_width - (screen_width / 4) and direction_x > 0: # based on screen width since screen width is a number if player is going right
+        elif player_x > screen_width - (screen_width / 2) and direction_x > 0: # based on screen width since screen width is a number if player is going right
             self.world_shift = -8 
             player.speed = 0
         else:
@@ -227,10 +231,13 @@ class Level:
     def check_death(self):
         if self.player.sprite.rect.top > screen_height:
             self.create_overworld(self.current_level,0)
-
+            self.change_coins(0)
+                    
     def check_win(self):
         if pygame.sprite.spritecollide(self.player.sprite,self.goal,False):
             self.create_overworld(self.current_level,self.new_max_level)
+            self.change_total_coins()
+            self.change_coins(0)
     
     def check_coin_collisions(self):
         collided_coins = pygame.sprite.spritecollide(self.player.sprite, self.coin_sprites, True)
@@ -248,7 +255,7 @@ class Level:
                 player_bottom = self.player.sprite.rect.bottom
                 if enemy_top < player_bottom < enemy_center and self.player.sprite.direction.y >= 0:
                     self.stomp_sound.play()
-                    self.player.sprite.direction.y = -5
+                    self.player.sprite.direction.y = -15
                     explosion_sprite = ParticleEffect(enemy.rect.center, 'explosion')
                     self.explosion_sprites.add(explosion_sprite)
                     enemy.kill()

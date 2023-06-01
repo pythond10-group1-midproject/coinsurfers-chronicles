@@ -1,4 +1,5 @@
 import pygame
+from support import *
 
 class UI:
     def __init__(self, surface):
@@ -16,6 +17,7 @@ class UI:
         self.coin = pygame.image.load('graphics/ui/coin.png').convert_alpha()
         self.coin_rect = self.coin.get_rect(topleft = (50, 61))
         self.font = pygame.font.Font('graphics/ui/ARCADEPI.TTF', 30)
+          
         
     def show_health(self, current, full):
         self.display_surface.blit(self.health_bar, (20, 10))
@@ -26,6 +28,9 @@ class UI:
 
     def show_coins(self, amount):
         self.display_surface.blit(self.coin, self.coin_rect)
-        coin_amount_surf = self.font.render(str(amount), False, '#33323d')
+        if hour_of_day > 8 and hour_of_day < 18:
+            coin_amount_surf = self.font.render(str(amount), False, '#33323d')
+        else:
+            coin_amount_surf = self.font.render(str(amount), False, '#eb8e1c')   
         coin_amount_rect = coin_amount_surf.get_rect(midleft = (self.coin_rect.right + 4, self.coin_rect.centery))
         self.display_surface.blit(coin_amount_surf,coin_amount_rect)
