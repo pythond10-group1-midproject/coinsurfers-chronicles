@@ -8,7 +8,7 @@ class Game:
     def __init__(self):
         
         # game attributes
-        self.max_level = 2
+        self.max_level = 0
         self.max_health = 100
         self.cur_health = 100
         self.total_coins = 0
@@ -23,10 +23,10 @@ class Game:
         self.overworld_bg_music.set_volume(0.3)
         
         # overworld creation
-        self.overworld = Overworld(0, self.max_level, screen,self.create_level)
+        self.overworld = Overworld(0, self.max_level, screen,self.create_level,self.buy_health)
         self.status = 'overworld'
         self.overworld_bg_music.play(loops = -1)
-        
+
         # ui
         self.ui = UI(screen)
         
@@ -39,7 +39,7 @@ class Game:
     def create_overworld(self,current_level,new_max_level):
         if new_max_level > self.max_level:
             self.max_level = new_max_level
-        self.overworld = Overworld(current_level,self.max_level,screen,self.create_level)
+        self.overworld = Overworld(current_level,self.max_level,screen,self.create_level,self.buy_health)
         self.status = 'overworld'    
         self.level_bg_music.stop()
         self.overworld_bg_music.play(loops = -1)
@@ -51,18 +51,25 @@ class Game:
             self.coins += amount
 
     def change_total_coins(self):
-        self.total_coins += self.coins    
+            self.total_coins += self.coins    
     
     def change_health(self, amount):  
         self.cur_health += amount
     
+    def buy_health(self,health_amount,cost):
+        if self.cur_health == 100 or self.total_coins < 25:
+            pass
+        else:
+            self.cur_health += health_amount
+            self.total_coins -= cost
+
     def check_game_over(self):
         if self.cur_health <= 0:
             self.cur_health = 100
             self.coins = 0
             self.total_coins =0
             self.max_level = 0
-            self.overworld = Overworld(0, self.max_level, screen, self.create_level)
+            self.overworld = Overworld(0, self.max_level, screen, self.create_level,self.buy_health)
             self.status = 'overworld'
             self.level_bg_music.stop()
             self.overworld_bg_music.play(loops = -1)
@@ -71,6 +78,7 @@ class Game:
         if self.status == 'overworld':
             self.overworld.run()
             self.ui.show_coins(self.total_coins)
+            self.ui.show_health(self.cur_health, self.max_health)
         else:
             self.level.run()
             self.ui.show_health(self.cur_health, self.max_health)
@@ -84,10 +92,12 @@ game = Game()
 
 while True:
     screen.fill('gray')
+    clicked = False
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
+
     game.run()
     
     pygame.display.update()
