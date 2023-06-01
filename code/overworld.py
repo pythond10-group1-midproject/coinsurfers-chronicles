@@ -43,7 +43,7 @@ class Icon(pygame.sprite.Sprite):
         self.rect.center = self.pos
 
 class Overworld:
-    def __init__(self, start_level, max_level, surface,create_level):
+    def __init__(self, start_level, max_level, surface,create_level,buy_health):
 
         # setup
         self.display_surface = surface
@@ -55,6 +55,15 @@ class Overworld:
         self.moving = False
         self.move_direction = pygame.math.Vector2(0,0)
         self.speed = 8
+
+        #Buy health button
+        self.health_button_image = pygame.image.load('graphics/overworld/plus_life.png').convert_alpha()
+        self.health_button = pygame.transform.scale(self.health_button_image,(self.health_button_image.get_width()*0.5,self.health_button_image.get_height()*0.5))
+        self.buy_health = buy_health
+        
+        self.did_buy =False
+        self.delay = 500
+        self.click_time = 0
 
         # sprites
         self.setup_nodes()
@@ -128,6 +137,30 @@ class Overworld:
             current_time = pygame.time.get_ticks()
             if current_time - self.start_time >= self.timer_length:
                 self.allow_input = True
+ 
+    def show_buy_button(self):
+        self.display_surface.blit(self.health_button,(screen_width - 100, 40))
+
+    def buy_on_click(self):
+        if not self.did_buy:
+                self.buy_health(10,25)
+                self.click_time = pygame.time.get_ticks()
+                self.did_buy = True
+
+    def buy_timer(self):
+        cur_time = pygame.time.get_ticks()
+        if self.did_buy:
+            if cur_time - self.click_time >= self.delay:
+                self.did_buy = False
+                 
+
+    def on_click(self):
+        mouse_presses = pygame.mouse.get_pressed()
+        mouse_pos = pygame.mouse.get_pos()
+        mouse_pos_rect = pygame.Rect(mouse_pos[0],mouse_pos[1],20,20)
+        health_but = pygame.Rect(screen_width-100,40,42,32)
+        if health_but.colliderect(mouse_pos_rect) and mouse_presses[0]:
+            self.buy_on_click()
 
     def run(self):
         self.input_timer()
@@ -141,3 +174,8 @@ class Overworld:
         self.draw_paths()
         self.nodes.draw(self.display_surface)
         self.icon.draw(self.display_surface)
+        self.show_buy_button()
+        self.buy_timer()
+        self.on_click()
+
+            
