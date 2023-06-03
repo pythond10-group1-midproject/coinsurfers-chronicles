@@ -9,7 +9,7 @@ from player import Player
 from particles import ParticleEffect
 
 class Level:
-    def __init__(self, current_level,surface,create_overworld, change_coins, change_health,change_total_coins):
+    def __init__(self, current_level, surface, create_overworld, change_coins, change_health, change_total_coins):
         # general setup
         self.display_surface = surface
         self.world_shift = 0
@@ -17,20 +17,23 @@ class Level:
 
         # audio
         self.coin_sound = pygame.mixer.Sound('audio/effects/coin.wav')
-        self.coin_sound.set_volume(0.5)
+        self.coin_sound.set_volume(0.2)
         self.stomp_sound = pygame.mixer.Sound('audio/effects/stomp.wav')
-        self.stomp_sound.set_volume(0.5)
+        self.stomp_sound.set_volume(0.2)
         
         # overworld connection 
         self.create_overworld = create_overworld
         self.current_level = current_level
         level_data = levels[self.current_level]
         self.new_max_level = level_data['unlock']
-
+        
+        # go back button
+        self.go_back_button_image = pygame.image.load('graphics/go_back_but.png').convert_alpha()
+        self.go_back_rect = pygame.Rect(30, screen_height-55, 55, 55)
+        
         # user interface
         self.change_coins = change_coins
         self.change_total_coins = change_total_coins
-        
         
         #player
         player_layout = import_csv_layout(level_data['player']) # [[],[],[],[]] len(play_lya[0]) this for Mohammad Alghanim
@@ -83,6 +86,18 @@ class Level:
         self.water = Water(screen_height - 40 , level_width)   
         self.clouds = Clouds(200,level_width,30)
         self.stars = Stars(400,level_width,100)
+                   
+    def create_button(self, image, pos):
+        new_image = pygame.transform.scale(image, (85, 72))
+        return self.display_surface.blit(new_image,pos)
+    
+    def is_pressed(self):
+        mouse_presses = pygame.mouse.get_pressed()
+        mouse_pos = pygame.mouse.get_pos()
+        mouse_pos_rect = pygame.Rect(mouse_pos[0],mouse_pos[1],20,20)
+        # print(mouse_pos, mouse_presses)
+        if self.go_back_rect.colliderect(mouse_pos_rect) and mouse_presses[0]:
+            self.create_overworld(self.current_level,self.new_max_level)
     
     def create_tile_group(self, layout, type):
         sprite_group = pygame.sprite.Group()
@@ -149,7 +164,7 @@ class Level:
                     sprite = StaticTile(tile_size,x,y,hat_surface)
                     self.goal.add(sprite)
     
-    def enemt_collision_reverse(self):
+    def enemy_collision_reverse(self):
         for enemy in self.enemy_sprites.sprites():
             if pygame.sprite.spritecollide(enemy,self.constraint_sprites,False):# this false it is for avoid destroing the constraint
                 enemy.reverse()
@@ -187,6 +202,7 @@ class Level:
         player = self.player.sprite
         player.apply_gravity()
         collidable_sprites = self.terrain_sprites.sprites() + self.crate_sprites.sprites() + self.fg_palm_sprites.sprites()
+        # collidable_sprites = self.terrain_sprites.sprites()
         for sprite in collidable_sprites: 
             if sprite.rect.colliderect(player.collision_rect):
                 if player.direction.y > 0:
@@ -269,7 +285,7 @@ class Level:
             self.player_on_ground = False
 
     def run(self):
-
+       
         # sky
         self.sky.draw(self.display_surface)
         self.stars.draw(self.display_surface,self.world_shift)
@@ -290,7 +306,7 @@ class Level:
         # enemy
         self.enemy_sprites.update(self.world_shift)
         self.constraint_sprites.update(self.world_shift)
-        self.enemt_collision_reverse()
+        self.enemy_collision_reverse()
         self.enemy_sprites.draw(self.display_surface)
         self.explosion_sprites.update(self.world_shift)
         self.explosion_sprites.draw(self.display_surface)
@@ -323,6 +339,8 @@ class Level:
         self.player.draw(self.display_surface)
         self.goal.update(self.world_shift)
         self.goal.draw(self.display_surface)
+        self.create_button(self.go_back_button_image, (0, screen_height-85))
+        self.is_pressed()
 
         # game status
         self.check_death()

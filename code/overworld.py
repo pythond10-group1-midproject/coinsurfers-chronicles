@@ -43,12 +43,13 @@ class Icon(pygame.sprite.Sprite):
         self.rect.center = self.pos
 
 class Overworld:
-    def __init__(self, start_level, max_level, surface,create_level,buy_health):
+    def __init__(self, start_level, max_level, surface,create_level,buy_health,create_mainmenu):
 
         # setup
         self.display_surface = surface
         self.max_level = max_level
         self.current_level = start_level
+        self.create_mainmenu = create_mainmenu
         self.create_level = create_level
 
         # movement logic
@@ -56,20 +57,23 @@ class Overworld:
         self.move_direction = pygame.math.Vector2(0,0)
         self.speed = 8
 
-        #Buy health button
+        # buy health button
         self.health_button_image = pygame.image.load('graphics/overworld/plus_life.png').convert_alpha()
         self.health_button = pygame.transform.scale(self.health_button_image,(self.health_button_image.get_width()*0.5,self.health_button_image.get_height()*0.5))
         self.buy_health = buy_health
-        
         self.did_buy =False
         self.delay = 500
         self.click_time = 0
+        
+        # go back button
+        self.go_back_button_image = pygame.image.load('graphics/go_back_but.png').convert_alpha()
+        self.go_back_rect = pygame.Rect(30, screen_height-55, 55, 55)
 
         # sprites
         self.setup_nodes()
         self.setup_icon()
 
-        #sky
+        # sky
         self.sky= Sky(8,'overworld')
         self.clouds = Clouds(350,screen_width,25)
         self.stars = Stars(350,screen_width,100)
@@ -147,13 +151,24 @@ class Overworld:
                 self.click_time = pygame.time.get_ticks()
                 self.did_buy = True
 
+    def create_button(self, image, pos):
+        new_image = pygame.transform.scale(image, (85, 72))
+        return self.display_surface.blit(new_image,pos)
+    
+    def is_pressed(self):
+        mouse_presses = pygame.mouse.get_pressed()
+        mouse_pos = pygame.mouse.get_pos()
+        mouse_pos_rect = pygame.Rect(mouse_pos[0],mouse_pos[1],20,20)
+        # print(mouse_pos, mouse_presses)
+        if self.go_back_rect.colliderect(mouse_pos_rect) and mouse_presses[0]:
+            self.create_mainmenu(self.display_surface)
+    
     def buy_timer(self):
         cur_time = pygame.time.get_ticks()
         if self.did_buy:
             if cur_time - self.click_time >= self.delay:
                 self.did_buy = False
                  
-
     def on_click(self):
         mouse_presses = pygame.mouse.get_pressed()
         mouse_pos = pygame.mouse.get_pos()
@@ -177,5 +192,7 @@ class Overworld:
         self.show_buy_button()
         self.buy_timer()
         self.on_click()
+        self.create_button(self.go_back_button_image, (0, screen_height-85))
+        self.is_pressed()
 
             
