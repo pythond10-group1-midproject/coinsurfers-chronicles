@@ -51,7 +51,6 @@ class Game:
         self.background_music.play(loops = -1)
         
     def create_overworld(self,current_level,new_max_level):
-        print("test")
         self.status = 'overworld'
         if new_max_level > self.max_level:
             self.max_level = new_max_level
@@ -91,7 +90,6 @@ class Game:
             self.overworld_bg_music.play(loops = -1)
             
     def run(self):
-        print(self.status)
         if self.status == 'mainmenu':
             self.mainmenu.run()
             
