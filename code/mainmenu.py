@@ -1,5 +1,6 @@
 import pygame, sys
 from settings import screen_width
+from credits import main
 
 class MainMenu:
     def __init__(self, surface, create_overworld):
@@ -23,9 +24,10 @@ class MainMenu:
         mouse_pos_rect = pygame.Rect(mouse_pos[0],mouse_pos[1],20,20)
         # print(mouse_pos, mouse_presses)
         if self.button_two_rect.colliderect(mouse_pos_rect) and mouse_presses[0]:
-            self.create_overworld(0, 4)
+            self.create_overworld(0, 0)
         if self.button_three_rect.colliderect(mouse_pos_rect) and mouse_presses[0]:
-            sys.exit()
+            # sys.exit()
+            main()
             
     def run(self):
         self.display_surface.blit(self.background, (0, 0))
