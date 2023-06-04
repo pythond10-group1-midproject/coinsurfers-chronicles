@@ -80,6 +80,13 @@ class Level:
         constraint_layout = import_csv_layout(level_data['constraints'])
         self.constraint_sprites = self.create_tile_group(constraint_layout,'constraints') 
 
+        # go back button delay
+        self.delay = 1000
+        self.start_time = pygame.time.get_ticks()
+        self.current_time = 0
+        self.is_presseble = False
+
+
         # decoration 
         self.sky = Sky(8)
         level_width = len(terrain_layout[0])* tile_size
@@ -95,9 +102,9 @@ class Level:
         mouse_presses = pygame.mouse.get_pressed()
         mouse_pos = pygame.mouse.get_pos()
         mouse_pos_rect = pygame.Rect(mouse_pos[0],mouse_pos[1],20,20)
-        # print(mouse_pos, mouse_presses)
         if self.go_back_rect.colliderect(mouse_pos_rect) and mouse_presses[0]:
-            self.create_overworld(self.current_level,self.new_max_level)
+             self.change_coins(0)
+             self.create_overworld(self.current_level,self.new_max_level)
     
     def create_tile_group(self, layout, type):
         sprite_group = pygame.sprite.Group()

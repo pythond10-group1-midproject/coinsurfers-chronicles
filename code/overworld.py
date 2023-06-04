@@ -153,15 +153,15 @@ class Overworld:
 
     def create_button(self, image, pos):
         new_image = pygame.transform.scale(image, (85, 72))
-        return self.display_surface.blit(new_image,pos)
+        self.display_surface.blit(new_image,pos)
     
     def is_pressed(self):
-        mouse_presses = pygame.mouse.get_pressed()
-        mouse_pos = pygame.mouse.get_pos()
-        mouse_pos_rect = pygame.Rect(mouse_pos[0],mouse_pos[1],20,20)
-        # print(mouse_pos, mouse_presses)
-        if self.go_back_rect.colliderect(mouse_pos_rect) and mouse_presses[0]:
-            self.create_mainmenu(self.display_surface)
+        if self.allow_input:
+            mouse_presses = pygame.mouse.get_pressed()
+            mouse_pos = pygame.mouse.get_pos()
+            mouse_pos_rect = pygame.Rect(mouse_pos[0],mouse_pos[1],20,20)
+            if self.go_back_rect.colliderect(mouse_pos_rect) and mouse_presses[0]:
+                self.create_mainmenu(self.display_surface)
     
     def buy_timer(self):
         cur_time = pygame.time.get_ticks()
