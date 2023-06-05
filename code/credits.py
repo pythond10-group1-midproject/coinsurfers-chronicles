@@ -2,7 +2,7 @@ import pygame
 from pygame.locals import *
 
 pygame.init()
-pygame.display.set_caption('End credits')
+pygame.display.set_caption("CoinSurfer's Chronicles")
 screen = pygame.display.set_mode((1200, 704))
 screen_r = screen.get_rect()
 font = pygame.font.Font('graphics/ui/ARCADEPI.TTF',40)
@@ -10,13 +10,15 @@ clock = pygame.time.Clock()
 
 def main():
 
-    credit_list = ["CREDITS - CoinSurfer's Chronicles"," "," ","Abdullah Abu Hamad - The Big Orange Cat"," ","Amjad Al-Sayyed   - The Moustache Cat"," ", "Nawras Albibi     - The Shawarma Man"," ", "Mohammad AlGhanim   - The Tiger           "," ", "Yazan Abu Shhab   - The Head Hunter   "]
+    credit_list = ["~_.-*-._­­­~", " ","CREDITS - CoinSurfer's Chronicles"," "," ","Abdullah Abu Hamad - The Big Orange Cat"," ","Amjad Al-Sayyed   - The Moustache Cat"," ", "Nawras Albibi     - The Shawarma Man"," ", "Mohammad AlGhanim   - The Tiger           "," ", "Yazan Abu Shhab   - The Head Hunter   ", " ", "~_.-*-._­­­~"]
 
     texts = []
     # we render the text once, since it's easier to work with surfaces
     # also, font rendering is a performance killer
+
+    
     for i, line in enumerate(credit_list):
-        s = font.render(line, 1, (10, 10, 10))
+        s = font.render(line, 1, (255, 255, 255))
         # we also create a Rect for each Surface. 
         # whenever you use rects with surfaces, it may be a good idea to use sprites instead
         # we give each rect the correct starting position 
@@ -28,8 +30,7 @@ def main():
             if e.type == QUIT or e.type == KEYDOWN and e.key == pygame.K_ESCAPE:
                 return
 
-        screen.fill((40, 120, 60))
-
+        screen.fill((0, 0, 0))
         for r, s in texts:
             # now we just move each rect by one pixel each frame
             r.move_ip(0, -1)
