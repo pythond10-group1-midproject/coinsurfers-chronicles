@@ -55,15 +55,15 @@ level_3 = {
     "node_graphics":'graphics/overworld/3'
 }
 level_4 = {
-    'bg palms': 'levels/2/level_2_bg_palms.csv',
-    'coins': 'levels/2/level_2_coins.csv',
-    'constraints': 'levels/2/level_2_constraints.csv',
-    'crates': 'levels/2/level_2_crates.csv',
-    'enemies': 'levels/2/level_2_enemies.csv',
-    'fg palms': 'levels/2/level_2_fg_palms.csv',
-    'grass': 'levels/2/level_2_grass.csv',
-    'player': 'levels/2/level_2_player.csv',
-    'terrain': 'levels/2/level_2_terrain.csv',
+    'bg palms': 'levels/4/level_4_bg_palms.csv',
+    'coins': 'levels/4/level_4_coins.csv',
+    'constraints': 'levels/4/level_4_constraints.csv',
+    'crates': 'levels/4/level_4_crates.csv',
+    'enemies': 'levels/4/level_4_enemies.csv',
+    'fg palms': 'levels/4/level_4_fg_palms.csv',
+    'grass': 'levels/4/level_4_grass.csv',
+    'player': 'levels/4/level_4_player.csv',
+    'terrain': 'levels/4/level_4_terrain.csv',
     'node_pos':(880,210),
     'unlock':5,
     "node_graphics":'graphics/overworld/4'

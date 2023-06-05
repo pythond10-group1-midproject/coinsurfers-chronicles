@@ -36,4 +36,4 @@ class MainMenu:
         self.create_button(self.button_two, (screen_width/2 - 85, 528))
         self.create_button(self.button_three, (screen_width/2 + 140, 528))
         self.is_pressed()
-        
+    
