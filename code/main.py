@@ -18,11 +18,11 @@ class Game:
         pygame.mixer.init()
         
         # audio
-        self.level_bg_music = pygame.mixer.Sound('audio/level_music.mp3')
+        self.level_bg_music = pygame.mixer.Sound('audio/level_music.wav')
         self.level_bg_music.set_volume(0.2)
         self.overworld_bg_music = pygame.mixer.Sound('audio/overworld_music.mp3')
         self.overworld_bg_music.set_volume(0.2)
-        self.background_music = pygame.mixer.Sound('audio/background_music.mp3')
+        self.background_music = pygame.mixer.Sound('audio/background_music.wav')
         self.background_music.set_volume(0.3)
         
         # mainmenu creation
