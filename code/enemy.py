@@ -1,12 +1,16 @@
 import pygame 
 from tiles import AnimatedTile
 from random import randint
+from support import hour_of_day
 
 class Enemy(AnimatedTile):
     def __init__(self, size, x, y):
         super().__init__(size, x, y,'graphics/enemy/run')
         self.rect.y += size - self.image.get_size()[1]
-        self.speed = randint(3,5)
+        if hour_of_day > 8 and hour_of_day < 18:
+            self.speed = randint(3,5)
+        else:
+            self.speed = randint(4,7)
 
     def move(self):
         self.rect.x += self.speed
