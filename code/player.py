@@ -1,6 +1,7 @@
 import pygame
 from support import import_folder
 from math import sin
+from support import hour_of_day
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, position,surface,create_jump_particles, change_health):
@@ -148,7 +149,10 @@ class Player(pygame.sprite.Sprite):
     def get_damage(self):
         if not self.invincible:
             self.hit_sound.play()
-            self.change_health(-10)
+            if hour_of_day > 8 and hour_of_day < 18:
+                self.change_health(-10)
+            else:
+                self.change_health(-20)
             self.invincible = True
             self.hurt_time = pygame.time.get_ticks()
             
